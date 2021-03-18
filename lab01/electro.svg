@@ -55,20 +55,36 @@
 <path d="M280 230 384 230
 " stroke-width="10" stroke="#F00" fill="none" opacity="0.3"/>
 
-<path d="M170 330 A2 2, 0, 0, 0, 215 330 M192 0  160 63 230 64 192 128" stroke-width="10" stroke="#F00" fill="none" opacity="0.3"/></path>
+<path d="M170 330 
+A2 2, 0, 0, 0, 215 330 
+M192 0  160 63 230 64 192 128" 
+stroke-width="10" stroke="#F00" fill="none" opacity="0.3"/>
 
-<path d="M140 384 A65 70, 0, 1, 0, 240 384" stroke-width="10" stroke="#F00" fill="blue" opacity="0.3"/></path>
+<path d="M140 384 A65 70, 0, 1, 0, 240 384" stroke-width="10" stroke="#F00" fill="blue" opacity="0.3"/>
 
-<path d="M128 420 A1 3, 40, 1, 0, 90 490 A1 4, 50, 1, 0, 130 448 M256 420 A3 1, 50, 0, 1, 300 490 A3 1, 40, 0, 1, 256 448 M280 420 Q320 380 360 420 Q410 450 448 384" stroke-width="10" stroke="#F00" fill="none" opacity="0.3"/></path>
+<path d="M128 420 
+A1 3, 40, 1, 0, 90 490 
+A1 4, 50, 1, 0, 130 448 
+M256 420 A3 1, 50, 0, 1, 300 490 
+A3 1, 40, 0, 1, 256 448 
+M280 420 
+Q320 380 360 420 
+Q410 450 448 384" stroke-width="10" stroke="#F00" fill="none" opacity="0.3"/>
 
-<path d="M440 360 A12 18,10,1,0 470 370 Z 
+<path d="M440 360 
+A12 18,10,1,0 470 370 Z 
 M448 360 460 340 
 M458 370 470 345
 M436 310 430 330 442 325 434 344
 M510 330 490 340 500 350 480 350
-" stroke-width="10" stroke="#F00" fill="none" opacity="0.3"/></path>
+" stroke-width="10" stroke="#F00" fill="none" opacity="0.3"/>
 
-  <path d="M150 448 A4 7, 150, 0, 0, 150 500 A4 7, 150, 0, 0, 150 448 M240 448 A7 4, 120, 0, 0, 240 500 A7 4, 120, 0, 0, 240 448" stroke-width="10" stroke="#F00" fill="blue" opacity="1"/></path>
+  <path d="M150 448 
+  A4 7, 150, 0, 0, 150 500 
+  A4 7, 150, 0, 0, 150 448 
+  M240 448 
+  A7 4, 120, 0, 0, 240 500 
+  A7 4, 120, 0, 0, 240 448" stroke-width="10" stroke="#F00" fill="blue" opacity="1"/>
 
 
 </svg>
