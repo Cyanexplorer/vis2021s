@@ -2,6 +2,7 @@
 
 <html>
 	<head>
+		<meta charset="utf-8">
 		<script src="https://d3js.org/d3.v4.js"></script>
         <script src="dataLoader.js"></script>
         <script src="getNode.js"></script>
@@ -80,9 +81,7 @@
 			<li><a href="http://blog.infographics.tw/2015/10/d3js-tutorial-treemap-and-budget/">D3.js 實戰 － 利用 Treemap Layout 將政府預算視覺化</a></li>
 		</ul>
 
-		<div id="dropfile" for="csvfile">
-			CSV 資料扔過來! Drop your CSV here.
-		</div>
+		
 		<div>
 			<select id="ObjectKeys">
 				<option value="selectValue">
@@ -120,41 +119,22 @@
                     })
 				})
 
-				document.getElementById('dropfile').addEventListener('dragover',function(evt){
-					evt.preventDefault()
-				})
+                if (treemapContainer.innerHTML.length) {
+                    treemapContainer.innerHTML = ''
+                }
 
-				document.getElementById('dropfile').addEventListener('drop', function(evt){
-					evt.preventDefault()
+                if (objectKeys.innerHTML.length) {
+                    objectKeys.innerHTML = ''
+                }
 
-					var files = evt.dataTransfer.files
+                var csvFile = './dataset.csv'
 
-					if (files.length) {
-                        if (treemapContainer.innerHTML.length) {
-                            treemapContainer.innerHTML = ''
-                        }
-
-                        if (objectKeys.innerHTML.length) {
-                            objectKeys.innerHTML = ''
-						}
-
-						var csvFile = files[0]
-
-						//讀取csv
-						var fr = new FileReader()
-
-                        fr.onload = function(){
-                            dataLoader(fr.result, function(){
-								dataClassifier(objectKeys.value, function(data, layers){
-									node = getNode(data, layers, treemapContainer)
-									treemapContainer.innerHTML = node.innerHTML
-								}) 
-							})			                         
-                        }
-
-						fr.readAsText(csvFile)
-					}
-				})
+                dataLoader(csvFile, function () {
+                    dataClassifier(objectKeys.value, function (data, layers) {
+                        node = getNode(data, layers, treemapContainer)
+                        treemapContainer.innerHTML = node.innerHTML
+                    })
+                })
 			})
 		</script>
 
