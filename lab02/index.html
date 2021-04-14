@@ -79,13 +79,17 @@
 			<li>上台報告: 2021.04.01 (四) </li>
 			<li><a href="https://www.d3-graph-gallery.com/graph/treemap_custom.html">Treemap customization in d3.js</a></li>
 			<li><a href="http://blog.infographics.tw/2015/10/d3js-tutorial-treemap-and-budget/">D3.js 實戰 － 利用 Treemap Layout 將政府預算視覺化</a></li>
+			<li><a href="https://gs.statcounter.com/windows-version-market-share/desktop/worldwide/#yearly-2017-2021">資料來源</a></li>
 		</ul>
 
 		
 		<div>
 			<select id="ObjectKeys">
-				<option value="selectValue">
-					--select an option--
+				<option value="./dataset.csv">
+					Windows version
+				</option>
+				<option value="./android.csv">
+					Android version
 				</option>
 			</select>
 		</div>
@@ -102,20 +106,12 @@
                 var treemapContainer = document.getElementById('treemap')
                 var objectKeys = document.getElementById("ObjectKeys")
 
-                document.getElementById("ObjectKeys").addEventListener('change', function(evt){
-					if(evt.target.value == 'selectValue' ){
-						return;
-					}
-				
-                    //clear container
-                    if (treemapContainer.innerHTML.length) {
-                        treemapContainer.innerHTML = ''
-                    }
-
-
-                    dataClassifier(objectKeys.value, function(data, layers){
-                        node = getNode(data, layers, treemapContainer)
-                        treemapContainer.appendChild(node)
+				document.getElementById("ObjectKeys").addEventListener('change', function (evt) {
+                    dataLoader(objectKeys.value, function () {
+                        dataClassifier(function (data, layers) {
+                            node = getNode(data, layers, treemapContainer)
+                            treemapContainer.innerHTML = node.innerHTML
+                        })
                     })
 				})
 
@@ -123,14 +119,8 @@
                     treemapContainer.innerHTML = ''
                 }
 
-                if (objectKeys.innerHTML.length) {
-                    objectKeys.innerHTML = ''
-                }
-
-                var csvFile = './dataset.csv'
-
-                dataLoader(csvFile, function () {
-                    dataClassifier(objectKeys.value, function (data, layers) {
+                dataLoader(objectKeys.value, function () {
+                    dataClassifier(function (data, layers) {
                         node = getNode(data, layers, treemapContainer)
                         treemapContainer.innerHTML = node.innerHTML
                     })

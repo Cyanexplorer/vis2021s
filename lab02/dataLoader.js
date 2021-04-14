@@ -12,7 +12,7 @@ function dataLoader(uri,cb) {
                 
                 //把字串轉成number
                 if(/[0-9]+/.test(d[k])){
-                    t[k] = parseInt(d[k].replace(/(,|\s)+/g, ''))
+                    t[k] = parseFloat(d[k].replace(/(,|\s)+/g, ''))
                 }
                 //-符號代表為0
                 else if(d[k].replace(/^\s+|\s+$/g, '') == '-'){
@@ -33,20 +33,12 @@ function dataLoader(uri,cb) {
         if (!csvData.length){			
 			return
 		}
-            
-		
-		//獲取html中的下拉式選單
-		//只要使用者更改選單欄位，就會用不同的欄位做為分層
-        var objectKeys = document.getElementById("ObjectKeys")
-		for(var k in csvData[0]){
-			objectKeys.add(new Option(k, k))
-		}
 	
 		cb()
     })
 }
 
-function dataClassifier(key, callback) {
+function dataClassifier(callback) {
 	
 	var makeMapping = function(mappingRange){
 		var flatten = []
@@ -85,6 +77,7 @@ function dataClassifier(key, callback) {
     }
 
 	var layer = []
+	var key = Object.keys(csvData[0])[0]
 	//循環讀取所有的data
     csvData.forEach(function(d){
 		//這邊讀取所有非分層的名稱，只要該名稱不是分層名字就加入子節點中
