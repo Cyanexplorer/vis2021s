@@ -1,14 +1,58 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
-  <head>
+<head>
     <meta charset="utf-8">
     <title>D3 Page Template</title>
-    <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
+    <script src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script src="getMap.js"></script>
+    <script src="main.js"></script>
 </head>
 <body>
+
     <script type="text/javascript">
-      // Your beautiful D3 code will go here
+        window.onload{
+            //Width and height
+            var w = 500;
+            var h = 300;
+
+            //Define map projection
+            var projection = d3.geoAlbersUsa()
+                .translate([w / 2, h / 2])
+                .scale([500]);
+
+            //Define path generator
+            var path = d3.geoPath()
+                .projection(projection);
+
+            var node = document.getElementById("svg")
+            //Create SVG element
+            var svg = d3.select(node)
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+
+            //Load in GeoJSON data
+            d3.json("us-states.json", function (json) {
+
+                //Bind data and create one path per GeoJSON feature
+                svg.selectAll("path")
+                    .data(json.features)
+                    .enter()
+                    .append("path")
+                    .attr("d", path)
+                    .style("fill", "steelblue");
+            });
+        }
     </script>
-  </body>
+    <div>
+        <h1>美洲</h1>
+        <div id="svg">
+        </div>
+    </div>
+    <div>
+        <h1 id="city-title">台灣</h1>
+        <div id="map" class="container">
+        </div>
+    </div>
+</body>
 </html>
-  
