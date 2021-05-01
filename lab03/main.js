@@ -1,5 +1,5 @@
 
-window.addEventListener('load', function () {
+window.onload = function () {
     //Width and height
     var w = 500;
     var h = 300;
@@ -37,4 +37,4 @@ window.addEventListener('load', function () {
         document.getElementById('map').appendChild(data)
 
     })
-})
+}
