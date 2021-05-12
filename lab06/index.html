@@ -1,14 +1,244 @@
+<!--
+  https://blockbuilder.org/guilhermesimoes/8913c15adf7dd2cab53a
+  
+  http://bl.ocks.org/mstanaland/6100713
+
+  https://www.d3-graph-gallery.com/graph/barplot_stacked_basicWide.html
+-->
+
 <!DOCTYPE html>
-<html lang="zh-Hant-TW">
-  <head>
-    <meta charset="utf-8">
-    <title>D3 Page Template</title>
-    <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>d3.js learning</title>
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <style type="text/css">
+  svg {
+    font: 10px sans-serif;
+    shape-rendering: crispEdges;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+  }
+ 
+  path.domain {
+    stroke: none;
+  }
+ 
+  .y .tick line {
+    stroke: #ddd;
+  }
+  </style>
+
 </head>
 <body>
-    <script type="text/javascript">
-      // Your beautiful D3 code will go here
-    </script>
-  </body>
+<script type="text/javascript">
+
+// Setup svg using Bostock's margin convention
+
+var margin = {top: 100, right: 400, bottom: 100, left: 40};
+
+var width = 1600 - margin.left - margin.right,
+    height = 800 - margin.top - margin.bottom;
+
+var svg = d3.select("body")
+  .append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+/* Data in strings like it would be if imported from a csv */
+
+d3.csv("data.csv", function (data) {
+    // Transpose the data into layers
+    var dataset = d3.layout.stack()(["國文", "英文", "法文", "德文", "日文"].map(function (fruit) {
+        return data.map(function (d, i) {
+            return { x: i, y: +d[fruit] };
+        });
+    }));
+
+    var dataset2 = d3.layout.stack()(["屬性一", "屬性二"].map(function (fruit) {
+        return data.map(function (d, i) {
+            return { x: i, y: +d[fruit] };
+        });
+    }));
+
+    // Set x, y and colors
+    var x = d3.scale.ordinal()
+        .domain(dataset[0].map(function (d) { return d.x; }))
+        .rangeRoundBands([0, width], 0.2);
+
+    var y = d3.scale.linear()
+        .domain([0, d3.max(dataset, function (d) { return d3.max(d, function (d) { return d.y0 + d.y; }); })])
+        .range([height, 0]);
+
+    var colors = ["#b33040", "#d25c4d", "#f2b447", "#d9d574", "#555ba0", "#454545", "#A3A2A3"];
+    var colors2 = [ "#454545", "#A3A2A3"];
+
+
+    // Define and draw axes
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .ticks(5)
+        .tickSize(-width, 0, 0)
+        .tickFormat(function (d) { return d });
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom")
+        .tickValues([0,100,200])
+        .tickFormat(function (d) { return d });
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    // Create groups for each series, rects for each segment 
+    var groups = svg.selectAll("g.cost")
+        .data(dataset)
+        .enter().append("g")
+        .attr("class", "cost")
+        .style("fill", function (d, i) { return colors[i]; })
+        
+
+    var rect = groups.selectAll("rect")
+        .data(function (d) { return d; })
+        .enter()
+        .append("rect")
+        .attr("x", function (d) { return x(d.x)+1; })
+        .attr("y", function (d) { return y(d.y0 + d.y); })
+        .attr("height", function (d) { return y(d.y0) - y(d.y0 + d.y); })
+        .attr("width", x.rangeBand())
+        .on("mouseover", function () { tooltip.style("display", null); })
+        .on("mouseout", function () { tooltip.style("display", "none"); })
+        .on("mousemove", function (d, i) {
+            var target = this;
+            var xPosition = d3.mouse(this)[0] - 15;
+            var yPosition = d3.mouse(this)[1] - 25;
+            tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+            tooltip.select("text").text(function () {
+                var rt = "";
+                switch (target.parentNode.style.fill) {
+                    case "rgb(179, 48, 64)":
+                        rt = "國文:" + d.y + "\n";
+                        break;
+                    case "rgb(210, 92, 77)":
+                        rt = "英文:" + d.y + "\n";
+                        break;
+                    case "rgb(242, 180, 71)":
+                        rt = "法文:" + d.y + "\n";
+                        break;
+                    case "rgb(217, 213, 116)":
+                        rt = "德文:" + d.y + "\n";
+                        break;
+                    default:
+                        rt = "日文:" + d.y + "\n";
+                        break;
+                }
+                return rt;
+            });
+        });
+
+    var groups2 = groups.selectAll("g.cost")
+        .data(dataset2)
+        .enter().append("g")
+        .attr("class", "cost")
+        .style("fill", function (d, i) { return colors2[i]; })
+
+    var rect2 = groups2.selectAll("rect")
+        .data(function (d) { return d; })
+        .enter()
+        .append("rect")
+        .attr("x", 0 )
+        .attr("y", 0)
+        .attr("height", function (d) { return y(d.y0) - y(d.y0 + d.y); })
+        .attr("width", x.rangeBand())
+        .attr("transform", function (d, i) { return "translate(" + 1250 + "," + (height - 100) + ")rotate(" + i + ")translate(0," + (y(d.y0 + d.y)-500)+")" })
+        .on("mouseover", function () { tooltip.style("display", null); })
+        .on("mouseout", function () { tooltip.style("display", "none"); })
+        .on("mousemove", function (d, i) {
+            var target = this;
+            var xPosition = d3.mouse(this)[0] - 15;
+            var yPosition = d3.mouse(this)[1] - 25;
+            tooltip.attr("transform", function (d, i) { return "translate(" + (1250-15) + "," + (height - 115) + ")" })
+            tooltip.select("text").text(function () {
+                var rt = "";
+                switch (target.parentNode.style.fill) {
+                    case "rgb(69, 69, 69)":
+                        rt = "屬性一:" + d.y + "\n";
+                        break;
+                    case "rgb(163, 162, 163)":
+                        rt = "屬性二:" + d.y + "\n";
+                        break;
+                }
+                return rt;
+            });
+        });
+
+    // Draw legend
+    var legend = svg.selectAll(".legend")
+        .data(colors)
+        .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function (d, i) { return "translate(30," + i * 19 + ")"; });
+
+    legend.append("rect")
+        .attr("x", width - 48)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", function (d, i) { return colors.slice()[i]; });
+
+    legend.append("text")
+        .attr("x", width -18)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "start")
+        .text(function (d, i) {
+            switch (i) {
+                case 0: return "國文";
+                case 1: return "英文";
+                case 2: return "法文";
+                case 3: return "德文";
+                case 4: return "日文";
+                case 5: return "屬性一";
+                default: return "屬性二";
+            }
+        });
+
+
+    // Prep the tooltip bits, initial display is hidden
+    var tooltip = svg.append("g")
+        .attr("class", "tooltip")
+        .style("display", "none");
+
+    tooltip.append("rect")
+        .attr("width", 30)
+        .attr("height", 20)
+        .attr("fill", "white")
+        .style("opacity", 0.5);
+
+    tooltip.append("text")
+        .attr("x", 15)
+        .attr("dy", "1.2em")
+        .style("text-anchor", "middle")
+        .attr("font-size", "12px")
+        .attr("font-weight", "bold");
+})
+
+//var parse = d3.time.format("%Y").parse;
+
+</script>
+</body>
 </html>
   
