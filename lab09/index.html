@@ -1,14 +1,215 @@
 <!DOCTYPE html>
-<html lang="zh-Hant-TW">
-  <head>
-    <meta charset="utf-8">
-    <title>D3 Page Template</title>
-    <script src="http://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
+<html>
+<head>
+	<title></title>
+	<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+	<style type="text/css">
+
+		body {
+			/* background-image: url("1a.png"); */
+		}
+
+		video {
+			position:absolute; 
+			top:50%; 
+			left:50%; 
+			margin-left:-480px; 
+			margin-top:-270px;
+		}
+
+		svg {
+			position:absolute; 
+			top:50%; 
+			left:50%; 
+			margin-left:-480px; 
+			margin-top:-270px;
+			border: 1px solid gray;
+		}
+
+			svg text {
+				font-size: 40px;
+				font-weight: bold;
+				fill: white;
+				stroke: black;
+				stroke-width: 1px;
+				font-family: 'MS PGothic';
+			}
+
+		svg text {
+			/* opacity:0.7; */
+		}
+
+		svg text:hover {
+			/* opacity:1; */
+		}
+
+		text:hover {
+			fill: red;
+		}
+
+		#replay:hover {
+			box-shadow: 0px 0px 5px 5px rgba(255, 128, 128, 0.5);
+		}
+
+		#video:hover {
+			box-shadow: 0px 0px 5px 5px rgba(128, 255, 128, 0.5);
+		}
+
+		#subtitle:hover {
+			box-shadow: 0px 0px 5px 5px rgba(128, 128, 255, 0.5);
+		}
+
+		#subtitle {
+			pointer-events: none;
+		}
+	</style>
 </head>
 <body>
-    <script type="text/javascript">
-      // Your beautiful D3 code will go here
-    </script>
-  </body>
+
+	<video id="video" width="960px" height="540" preload="auto" onended="document.getElementById('replay').style.display='inline'; document.getElementById('video').style.display='none'; d3.select('#subtitle').remove();">
+	    <source src="./720.mp4" type="video/mp4">
+	</video>
+
+	<div id="srt"></div>
+
+	<script type="text/javascript">
+		var w = 960;
+		var h = 540;
+		var frame = -1;
+		var textAniTime = 100;
+
+		d3.select('body')
+		  .append('svg')
+		  .attr('id', 'replay')
+		  .attr('width', 960)
+		  .attr('height', 540)
+		  .append('text')
+		  .text("Replay")
+		  .attr('x', 540)
+		  .attr('y', 279)
+		  .attr("text-anchor", "middle")
+		  .on('click', function(){
+		  	document.getElementById("video").play();
+		  	document.getElementById("video").style.display = "inline";
+		  	document.getElementById("replay").style.display = "none";
+			
+		  });
+
+		d3.select(video)
+			.style('display', 'none')
+			.on('timeupdate', () => {
+				play_time(video.currentTime);
+				play_subtitle(video.currentTime);
+			});
+
+		var svg = d3.select('body')
+			.append('svg')
+			.attr('id', 'subtitle')
+			.attr('width', w)
+			.attr('height', h)
+			.attr('viewbox', function () {
+				return "0, 0, " + w + ', ' + h;
+			})
+			;
+
+		var timeText = svg
+			.append('text')
+			.text('--:--')
+			.attr('x', 800)
+			.attr('y', 60)
+
+		make_subtitle();
+
+		function play_time(time){
+			
+			var second = parseInt(time / 60);
+			var minute = parseInt(time % 60);
+			if (minute < 10)
+				minute = '0' + minute;
+			if (second < 10)
+				second = '0' + second;
+
+			timeText.text(second + ':' + minute);
+		}
+
+		function play_subtitle(currentTime) {
+			
+			subtitle.filter(function (d, i) {
+					if (frame != i && currentTime > d.begin && currentTime < d.end) {
+						frame = i;
+						return true;
+					}
+					return false;
+				})
+				.transition()
+				.duration(textAniTime)
+				.attr('opacity', 1)
+				.transition()
+				.delay(function (d) {
+					return (d.end - currentTime) * 1000;
+				})
+				.duration(textAniTime)
+				.attr('opacity', 0)
+				;
+		}
+
+		async function make_subtitle() {
+			var myarray = [];
+			d3.text('hishe.srt', function(data){
+				console.log(data);
+				//alert(data);
+
+				parsedCSV = d3.csvParseRows(data);
+				console.log(parsedCSV);
+				//alert('parsedCSV.length = ' + parsedCSV.length);
+
+				d3.select('#srt')
+				  .selectAll('p')
+				  .data(parsedCSV)
+				  .enter()
+				  .append("p")
+				  .text(function(d, i){
+				  	//return d;
+				  	if ( !isNaN(d) && d != '' ){
+				  		key = parseInt(d);
+				  	} else if (d == '') {
+				  		myarray.push({
+				  			"begin": begin,
+				  			"end": end,
+				  			"subtile": subtile
+				  		});
+				  	} else if (d.length == 3 ){
+				  		begin = (parseInt(d[0][3]) * 10 + parseInt(d[0][4])) * 60 +
+				  		        (parseInt(d[0][6]) * 10 + parseInt(d[0][7]));
+
+				  		end =   (parseInt(d[1][11]) * 10 + parseInt(d[1][12])) * 60 +
+				  		        (parseInt(d[1][14]) * 10 + parseInt(d[1][15]));
+				  	} else {
+				  		subtile = d;
+				  	}   
+				  })
+					;
+				console.log(myarray)
+				subtitle = svg
+					.append('g')
+					.selectAll('text')
+					.data(myarray)
+					.enter()
+					.append('text')
+					.text(function (d, i) {
+						console.log(i)
+						console.log(d)
+						return d.subtile;
+					})
+					.attr('x', w / 2)
+					.attr('y', h - 50)
+					.attr("text-anchor", "middle")
+					//.style('display', 'none')
+					.attr('opacity', 0)
+
+			})
+		}
+
+	</script>
+</body>
 </html>
-  
