@@ -14,7 +14,7 @@
 			top:50%; 
 			left:50%; 
 			margin-left:-480px; 
-			margin-top:-270px;
+			margin-top:-370px;
 		}
 
 		svg {
@@ -22,7 +22,7 @@
 			top:50%; 
 			left:50%; 
 			margin-left:-480px; 
-			margin-top:-270px;
+			margin-top:-370px;
 			border: 1px solid gray;
 		}
 
@@ -74,7 +74,7 @@
 
 	<script type="text/javascript">
 		var w = 960;
-		var h = 540;
+		var h = 700;
 		var frame = -1;
 		var textAniTime = 100;
 
@@ -82,7 +82,7 @@
 		  .append('svg')
 		  .attr('id', 'replay')
 		  .attr('width', 960)
-		  .attr('height', 540)
+		  .attr('height', 700)
 		  .append('text')
 		  .text("Replay")
 		  .attr('x', 540)
@@ -135,7 +135,7 @@
 		function play_subtitle(currentTime) {
 			
 			subtitle.filter(function (d, i) {
-					if (frame != i && currentTime > d.begin && currentTime < d.end) {
+					if (frame < i && currentTime > d.begin && currentTime < d.end) {
 						frame = i;
 						return true;
 					}
@@ -171,7 +171,7 @@
 				  .text(function(d, i){
 				  	//return d;
 				  	if ( !isNaN(d) && d != '' ){
-				  		key = parseInt(d);
+							key = parseInt(d);
 				  	} else if (d == '') {
 				  		myarray.push({
 				  			"begin": begin,
@@ -197,12 +197,15 @@
 					.enter()
 					.append('text')
 					.text(function (d, i) {
-						console.log(i)
-						console.log(d)
 						return d.subtile;
 					})
 					.attr('x', w / 2)
-					.attr('y', h - 50)
+					.attr('y', function (d, i) {
+						if (i % 2 == 0) {
+                            return h - 50
+                        }
+						return h-100
+					})
 					.attr("text-anchor", "middle")
 					//.style('display', 'none')
 					.attr('opacity', 0)
