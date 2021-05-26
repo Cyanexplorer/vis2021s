@@ -1,0 +1,509 @@
+1
+00:00:00,000 --> 00:00:00,030
+ Youtube subtitles download by mo.dbxdb.com 
+
+2
+00:00:00,030 --> 00:00:04,740
+when a character motion is given
+
+3
+00:00:01,740 --> 00:00:05,049
+authoring Garman animation for the
+
+4
+00:00:04,049 --> 00:00:08,940
+character is one of the fundamental
+
+5
+00:00:05,940 --> 00:00:11,849
+steps in a computer animation industry a
+
+6
+00:00:08,849 --> 00:00:14,280
+traditional workflow for doing this is
+
+7
+00:00:11,280 --> 00:00:16,370
+time and labor consuming the designer is
+
+8
+00:00:14,370 --> 00:00:18,680
+asked to insert keyframes by manually
+
+9
+00:00:16,680 --> 00:00:21,720
+editing the mesh with predefined
+
+10
+00:00:18,720 --> 00:00:24,779
+controllers the keyframes are inserted
+
+11
+00:00:21,779 --> 00:00:28,300
+densely and will be connected via linear
+
+12
+00:00:24,300 --> 00:00:28,700
+interpolation for animation
+
+13
+00:00:28,700 --> 00:00:34,910
+in a traditional workflow it takes more
+
+14
+00:00:31,910 --> 00:00:39,730
+than 40 hours for an expert to compose a
+
+15
+00:00:34,730 --> 00:00:39,680
+gamma animation with 400 frames
+
+16
+00:00:41,680 --> 00:00:48,070
+with our proposed workflow these tacks
+
+17
+00:00:45,070 --> 00:00:50,430
+can be finished within five minutes here
+
+18
+00:00:48,430 --> 00:00:53,140
+we show our workflow with the Maya
+
+19
+00:00:50,140 --> 00:00:57,860
+plugin we developed for our system first
+
+20
+00:00:53,860 --> 00:01:01,000
+we load a body motion of the character
+
+21
+00:00:57,000 --> 00:01:01,420
+here we preview the body motion
+
+22
+00:01:02,420 --> 00:01:08,229
+now we insert one keyframe we first
+
+23
+00:01:06,229 --> 00:01:11,060
+select the location of the keyframe
+
+24
+00:01:08,060 --> 00:01:13,150
+select a candidate garment shape predict
+
+25
+00:01:11,150 --> 00:01:16,819
+in transect parameters and propagate to
+
+26
+00:01:13,819 --> 00:01:19,580
+the whole sequence for more technical
+
+27
+00:01:16,580 --> 00:01:22,700
+details please refer to our paper now we
+
+28
+00:01:19,700 --> 00:01:25,369
+check the result of our gamma animation
+
+29
+00:01:22,369 --> 00:01:28,369
+prediction we can continue to insert new
+
+30
+00:01:25,369 --> 00:01:32,670
+keyframes for example for frame 1 7 and
+
+31
+00:01:28,670 --> 00:01:34,000
+and 75 we are not satisfied with the
+
+32
+00:01:32,000 --> 00:01:37,880
+current garment prediction we may mark
+
+33
+00:01:34,880 --> 00:01:40,489
+it as a keyframe and select a new
+
+34
+00:01:37,489 --> 00:01:42,160
+Kennedy from the data set we may
+
+35
+00:01:40,160 --> 00:01:44,410
+continue this until the animation
+
+36
+00:01:42,410 --> 00:01:47,690
+sequence is satisfactory
+
+37
+00:01:44,690 --> 00:01:50,479
+we may also delayed a keyframe if we
+
+38
+00:01:47,479 --> 00:01:54,090
+don't want it any more in a continue to
+
+39
+00:01:50,090 --> 00:01:54,220
+insert new keyframes if necessary
+
+40
+00:01:58,220 --> 00:02:03,220
+here we show our final garment animation
+
+41
+00:02:01,220 --> 00:02:03,489
+result
+
+42
+00:02:05,489 --> 00:02:11,758
+once the garmin animation is created our
+
+43
+00:02:08,758 --> 00:02:13,310
+system can update it automatically
+
+44
+00:02:11,310 --> 00:02:18,889
+whence the underlying body motion has
+
+45
+00:02:13,889 --> 00:02:21,599
+been changed here we added about emotion
+
+46
+00:02:18,599 --> 00:02:24,419
+and a garmin animation is updated
+
+47
+00:02:21,419 --> 00:02:26,060
+accordingly here first show the
+
+48
+00:02:24,060 --> 00:02:29,910
+animation without updating it has
+
+49
+00:02:26,910 --> 00:02:32,849
+significant artifact as the gamma motion
+
+50
+00:02:29,849 --> 00:02:35,340
+is not aligned with the new body motion
+
+51
+00:02:32,340 --> 00:02:38,819
+now we update a gamma animation the new
+
+52
+00:02:35,819 --> 00:02:41,280
+Garmin is moving naturally according the
+
+53
+00:02:38,280 --> 00:02:45,160
+body motion why the previous designs are
+
+54
+00:02:41,160 --> 00:02:45,818
+kept without any further menu effort
+
+55
+00:02:46,818 --> 00:02:51,400
+here we visualized a garment change
+
+56
+00:02:49,400 --> 00:02:55,829
+during the editing process by comparing
+
+57
+00:02:51,829 --> 00:02:58,400
+SI by Sai here on the left is to input
+
+58
+00:02:55,400 --> 00:03:00,310
+body motion on the right we have a
+
+59
+00:02:58,310 --> 00:03:03,468
+keyframe inserted at the beginning
+
+60
+00:03:00,468 --> 00:03:05,530
+marked as a red on the timeline the
+
+61
+00:03:03,530 --> 00:03:07,539
+Leighton parameters I learned from that
+
+62
+00:03:05,539 --> 00:03:10,818
+keyframe and are used to generate
+
+63
+00:03:07,818 --> 00:03:12,489
+garment shape for other frames when
+
+64
+00:03:10,489 --> 00:03:15,949
+inserting a new keyframe we see that a
+
+65
+00:03:12,949 --> 00:03:17,169
+gamma shape is the same at the beginning
+
+66
+00:03:15,169 --> 00:03:20,959
+and changing smoothly towards the second
+
+67
+00:03:17,959 --> 00:03:20,509
+key free
+
+68
+00:03:24,509 --> 00:03:29,509
+now the video is paused at the second
+
+69
+00:03:27,509 --> 00:03:32,729
+keyframe to see the difference between
+
+70
+00:03:29,729 --> 00:03:34,370
+the left and right the change happens
+
+71
+00:03:32,370 --> 00:03:36,348
+since we have learned a new latent
+
+72
+00:03:34,348 --> 00:03:39,810
+parameter for the second keyframe and
+
+73
+00:03:36,810 --> 00:03:42,389
+interpolate the parameter in the latent
+
+74
+00:03:39,389 --> 00:03:45,000
+space the new latent parameter will be
+
+75
+00:03:42,000 --> 00:03:48,680
+used for the rest of animation
+
+76
+00:03:45,680 --> 00:03:50,019
+it is similar when inserting more
+
+77
+00:03:48,019 --> 00:03:50,870
+keyframes
+
+78
+00:03:55,870 --> 00:03:57,289
+you
+
+79
+00:03:59,289 --> 00:04:04,049
+here we show the result when updating
+
+80
+00:04:02,049 --> 00:04:07,750
+about emotion the yellow region on the
+
+81
+00:04:04,750 --> 00:04:10,030
+timeline marks where the body motion has
+
+82
+00:04:07,030 --> 00:04:13,120
+been changed now on a ride only the body
+
+83
+00:04:10,120 --> 00:04:15,348
+motion has been changed
+
+84
+00:04:13,348 --> 00:04:19,930
+now the gamma motion has also been
+
+85
+00:04:15,930 --> 00:04:19,519
+updated or Prada Li
+
+86
+00:04:24,519 --> 00:04:26,439
+you
+
+87
+00:04:28,439 --> 00:04:34,300
+instead of selecting a caddy for
+
+88
+00:04:31,300 --> 00:04:36,478
+keyframe our system also supports Dirac
+
+89
+00:04:34,478 --> 00:04:38,728
+shape editing when inserting a new
+
+90
+00:04:36,728 --> 00:04:41,829
+keyframe
+
+91
+00:04:38,829 --> 00:04:45,288
+here we come here to Gama che between
+
+92
+00:04:41,288 --> 00:04:48,639
+the first before editing the second mesh
+
+93
+00:04:45,639 --> 00:04:50,579
+editing and the third projecting the
+
+94
+00:04:48,579 --> 00:04:53,860
+Edit mesh into our Laden space and
+
+95
+00:04:50,860 --> 00:04:56,860
+projected back into 3d space using on a
+
+96
+00:04:53,860 --> 00:05:00,918
+trend Network the second row shows the
+
+97
+00:04:56,918 --> 00:05:02,190
+mesh quality we show the animation
+
+98
+00:05:00,190 --> 00:05:05,649
+before and after the editing side by
+
+99
+00:05:02,649 --> 00:05:09,680
+side the two animation star at the same
+
+100
+00:05:05,680 --> 00:05:11,339
+keyframe and at the same keyframe but
+
+101
+00:05:09,339 --> 00:05:13,168
+the frame at the midpoint has been
+
+102
+00:05:11,168 --> 00:05:16,959
+changed and marked as a keyframe here we
+
+103
+00:05:13,959 --> 00:05:19,870
+show another example in this case the
+
+104
+00:05:16,870 --> 00:05:22,360
+menu editing creates a lot of artifacts
+
+105
+00:05:19,360 --> 00:05:24,538
+on a gamma shape so the Edit mesh is far
+
+106
+00:05:22,538 --> 00:05:27,879
+from what we have in a training data set
+
+107
+00:05:24,879 --> 00:05:30,759
+our approach captures the trend of this
+
+108
+00:05:27,759 --> 00:05:33,190
+editing but has some artifacts such as
+
+109
+00:05:30,190 --> 00:05:36,038
+self intersection when projecting it
+
+110
+00:05:33,038 --> 00:05:38,478
+back to the 3d shape space
+
+111
+00:05:36,478 --> 00:05:40,879
+here we show more examples with
+
+112
+00:05:38,879 --> 00:05:42,740
+different garments and different
+
+113
+00:05:40,740 --> 00:05:45,680
+characters we show a side-by-side
+
+114
+00:05:42,680 --> 00:05:47,209
+comparison of two animations starting
+
+115
+00:05:45,209 --> 00:05:50,699
+from the say keyframe but ending with
+
+116
+00:05:47,699 --> 00:05:50,680
+two different keyframes
+
+117
+00:05:56,680 --> 00:06:01,598
+you
+
+118
+00:05:58,598 --> 00:06:04,269
+here we come here a sequence of ground
+
+119
+00:06:01,269 --> 00:06:06,360
+true simulation in our data set and a
+
+120
+00:06:04,360 --> 00:06:08,038
+reconstruction through our learned
+
+121
+00:06:06,038 --> 00:06:08,579
+latent space
+
+122
+00:06:14,579 --> 00:06:16,060
+you
+
+123
+00:06:18,060 --> 00:06:23,699
+since our system is only driving by a
+
+124
+00:06:20,699 --> 00:06:25,850
+fixed period of previous body motion one
+
+125
+00:06:23,850 --> 00:06:29,860
+application is to create garment
+
+126
+00:06:25,860 --> 00:06:29,709
+movement for Lube animation
+
+127
+00:06:34,709 --> 00:06:38,000
+thank you for watching
+Subtitles End: mo.dbxdb.com
+
