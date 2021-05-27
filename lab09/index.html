@@ -77,6 +77,7 @@
 		var h = 700;
 		var frame = -1;
 		var textAniTime = 100;
+		var totalTime='--:--'
 
 		d3.select('body')
 		  .append('svg')
@@ -129,7 +130,7 @@
 			if (second < 10)
 				second = '0' + second;
 
-			timeText.text(second + ':' + minute);
+			timeText.text(second + ':' + minute+'/'+totalTime);
 		}
 
 		function play_subtitle(currentTime) {
@@ -179,6 +180,7 @@
 				  			"subtile": subtile
 				  		});
 				  	} else if (d.length == 3 ){
+						totalTime = d[1][11]+d[1][12]+':'+d[1][14]+d[1][15]
 				  		begin = (parseInt(d[0][3]) * 10 + parseInt(d[0][4])) * 60 +
 				  		        (parseInt(d[0][6]) * 10 + parseInt(d[0][7]));
 
