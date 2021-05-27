@@ -135,6 +135,7 @@
                     })
             })
         }
+        
         function loadWord(files, elementId, option) {
             readFiles(files, (e) => {
                 var svgpanel = d3.select(elementId)
@@ -158,13 +159,25 @@
                     .attr('stroke-width', 1)
 
                 svgpanel
-                    .on('click', (evt) => {
-                        console.log('a')
-                        svgpanel
                             .select('path')
                             .transition()
                             .duration(8000)
                             .attr('d', newPathd)
+                            .transition()
+                            .duration(8000)
+                            .attr('d', circlePathd)
+                
+                svgpanel
+                    .on('click', (evt) => {
+                        console.log('a')
+                       svgpanel
+                            .select('path')
+                            .transition()
+                            .duration(8000)
+                            .attr('d', newPathd)
+                            .transition()
+                            .duration(8000)
+                            .attr('d', circlePathd)
                     })
             })
         }
