@@ -88,6 +88,7 @@
             })
 
         }
+        
         function loadWordFromPath(filePath, elementId, option) {
             readFileFromPath(filePath, (e) => {
                 var svgpanel = d3.select(elementId)
@@ -111,6 +112,15 @@
                     .attr('stroke', 'blue')
                     .attr('stroke-width', 1)
 
+                svgpanel
+                            .select('path')
+                            .transition()
+                            .duration(8000)
+                            .attr('d', newPathd)
+                            .transition()
+                            .duration(8000)
+                            .attr('d', circlePathd)
+                
                 svgpanel
                     .on('click', (evt) => {
                         console.log('a')
