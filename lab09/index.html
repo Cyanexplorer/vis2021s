@@ -161,7 +161,8 @@
             .attr('opacity', 0)
             .attr('x', 0)
             .attr('y', h - 20)
-            .on('click', function () {
+			.on('click', function () {
+				frame = -1
                 var coordinates = d3.mouse(this);
                 var x = coordinates[0]
                 time = Math.round(x / w * maxTimeLength);
