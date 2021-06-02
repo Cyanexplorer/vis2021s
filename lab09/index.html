@@ -10,19 +10,19 @@
 		}
 
 		video {
-			position:absolute; 
-			top:50%; 
-			left:50%; 
-			margin-left:-480px; 
-			margin-top:-370px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-left: -480px;
+			margin-top: -370px;
 		}
 
 		svg {
-			position:absolute; 
-			top:50%; 
-			left:50%; 
-			margin-left:-480px; 
-			margin-top:-370px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-left: -480px;
+			margin-top: -370px;
 			border: 1px solid gray;
 		}
 
@@ -35,13 +35,13 @@
 				font-family: 'MS PGothic';
 			}
 
-		svg text {
-			/* opacity:0.7; */
-		}
+			svg text {
+				/* opacity:0.7; */
+			}
 
-		svg text:hover {
-			/* opacity:1; */
-		}
+				svg text:hover {
+					/* opacity:1; */
+				}
 
 		text:hover {
 			fill: red;
@@ -66,52 +66,121 @@
 </head>
 <body>
 
-	<video id="video" width="960px" height="540" preload="auto" onended="document.getElementById('replay').style.display='inline'; document.getElementById('video').style.display='none'; d3.select('#subtitle').remove();">
-	    <source src="./360p.mp4" type="video/mp4">
+	<video id="video" width="960" height="540" preload="auto">
+		<source src="./360p.mp4" type="video/mp4">
 	</video>
 
 	<div id="srt"></div>
 
-	<script type="text/javascript">
-		var w = 960;
+	<script type="text/javascript">var w = 960;
 		var h = 700;
 		var frame = -1;
 		var textAniTime = 100;
-		var totalTime='--:--'
+		var totalTime = '--:--'
+		var maxTimeLength = 0
 
-		d3.select('body')
-		  .append('svg')
-		  .attr('id', 'replay')
-		  .attr('width', 960)
-		  .attr('height', 700)
-		  .append('text')
-		  .text("Replay")
-		  .attr('x', 540)
-		  .attr('y', 279)
-		  .attr("text-anchor", "middle")
-		  .on('click', function(){
-		  	document.getElementById("video").play();
-		  	document.getElementById("video").style.display = "inline";
-		  	document.getElementById("replay").style.display = "none";
-			
-		  });
+        var svg = d3.select('body')
+			.append('svg')
+            .attr('width', w)
+            .attr('height', h)
+            .attr('viewbox', function () {
+                return "0, 0, " + w + ', ' + h;
+            })
+            ;
+
+		var play_state = 0
+
+		var playBtnText = svg
+			.append('text')
+			.text("Replay")
+			.attr('x', 540)
+			.attr('y', 350)
+			.attr("text-anchor", "middle")
+			.on('click', function () {
+				if (play_state == 0) {
+					timeline.attr('width',0)
+					play_state = 1
+					frame = -1
+                    playBtnText.text("Pause")
+					document.getElementById("video").play();
+					document.getElementById("video").style.display = "inline";
+				}
+				else if (play_state == 1) {
+					play_state = 2
+                    playBtnText.text("Play")
+					document.getElementById("video").pause();
+				}
+				else if (play_state == 2) {
+					play_state = 1
+                    playBtnText.text("Pause")
+                    document.getElementById("video").play();
+                }
+			});
+
+		svg
+			.on('mouseenter', function () {
+				if (play_state == 0)
+					return
+
+                playBtnText.transition()
+					.duration(100)
+					.attr('opacity',1)
+			})
+			.on('mouseleave', function () {
+				if (play_state == 0)
+					return
+
+				playBtnText.transition()
+					.delay(1000)
+                    .duration(500)
+                    .attr('opacity', 0);
+            })
+
+
+		var timelineGroup = svg.append('g')
+		timelineGroup
+			.append('rect')
+			.attr('width', w)
+            .attr('height', 20)
+            .attr('fill', 'gray')
+            .attr('x', 0)
+            .attr('y', h - 20)
+
+		var timeline = timelineGroup
+			.append('rect')
+            .attr('width', 0)
+            .attr('height', 20)
+            .attr('fill', 'red')
+            .attr('x', 0)
+			.attr('y', h - 20)
+
+        timelineGroup
+            .append('rect')
+            .attr('width', w)
+            .attr('height', 20)
+            .attr('opacity', 0)
+            .attr('x', 0)
+            .attr('y', h - 20)
+            .on('click', function () {
+                var coordinates = d3.mouse(this);
+                var x = coordinates[0]
+                time = Math.round(x / w * maxTimeLength);
+                document.getElementById("video").currentTime = time
+
+            })
 
 		d3.select(video)
 			.style('display', 'none')
+			.on('ended', function () {
+				play_state = 0
+				playBtnText.attr('opacity',1)
+				playBtnText.text('Replay')
+				document.getElementById('video').style.display = 'none';
+			})
 			.on('timeupdate', () => {
 				play_time(video.currentTime);
 				play_subtitle(video.currentTime);
 			});
-
-		var svg = d3.select('body')
-			.append('svg')
-			.attr('id', 'subtitle')
-			.attr('width', w)
-			.attr('height', h)
-			.attr('viewbox', function () {
-				return "0, 0, " + w + ', ' + h;
-			})
-			;
 
 		var timeText = svg
 			.append('text')
@@ -122,19 +191,20 @@
 		make_subtitle();
 
 		function play_time(time){
-			
+
 			var second = parseInt(time / 60);
 			var minute = parseInt(time % 60);
 			if (minute < 10)
 				minute = '0' + minute;
 			if (second < 10)
 				second = '0' + second;
-
-			timeText.text(second + ':' + minute+'/'+totalTime);
+			
+			timeText.text(second + ':' + minute + '/' + totalTime);
+			timeline.attr('width', time/maxTimeLength*w)
 		}
 
 		function play_subtitle(currentTime) {
-			
+
 			subtitle.filter(function (d, i) {
 					if (frame < i && currentTime > d.begin && currentTime < d.end) {
 						frame = i;
@@ -180,20 +250,23 @@
 				  			"subtile": subtile
 				  		});
 				  	} else if (d.length == 3 ){
-						totalTime = d[1][11]+d[1][12]+':'+d[1][14]+d[1][15]
+							
 				  		begin = (parseInt(d[0][3]) * 10 + parseInt(d[0][4])) * 60 +
 				  		        (parseInt(d[0][6]) * 10 + parseInt(d[0][7]));
 
 				  		end =   (parseInt(d[1][11]) * 10 + parseInt(d[1][12])) * 60 +
-				  		        (parseInt(d[1][14]) * 10 + parseInt(d[1][15]));
+								(parseInt(d[1][14]) * 10 + parseInt(d[1][15]));
+                            totalTime = d[1][11] + d[1][12] + ':' + d[1][14] + d[1][15]
+                            maxTimeLength = end
 				  	} else {
 				  		subtile = d;
-				  	}   
+				  	}
 				  })
 					;
 				console.log(myarray)
 				subtitle = svg
 					.append('g')
+					.attr('id', 'subtitle')
 					.selectAll('text')
 					.data(myarray)
 					.enter()
@@ -213,8 +286,6 @@
 					.attr('opacity', 0)
 
 			})
-		}
-
-	</script>
+		}</script>
 </body>
 </html>
